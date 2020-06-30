@@ -1,0 +1,15 @@
+
+type Movie {
+    id: Int!
+  name: String!
+  score: Int!
+}
+
+type Query {
+  hello:String!
+  movies: [Movie!]!
+  movie(id:Int!): Movie
+  addMovie(name:String!, score:Int!):Movie!
+  deleteMovie(id:Int!):Boolean!
+}
+#이게 restapi에서 api 의 느낌임 가능한 요청을 모두 모아논 다나와 같은 느낌임
