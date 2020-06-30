@@ -1,15 +1,11 @@
 import {getMovies,
-    getById,
-    deleteMovie,
-    addMovie } from './db.js';
+     } from './db.js';
 
 const resolvers = {
     Query: {
-        hello: () => "hello",
-        movie: (_, {name}) => getById(id),
-        movies : ()=> getMovies(),
-        addMovie: (_,{name,score})=>addMovie(name,score),
-        deleteMovie:(_,{id})=>deleteMovie(id),
+        hello :()=>'hello',
+        movies : (_, {limit, rating})=> getMovies(limit, rating),
+
     }
 };
 export default resolvers;
