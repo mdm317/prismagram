@@ -1,0 +1,6 @@
+type Mutation{
+    createUser(nickName:String!, email: String!,firstName: String,lastName: String!,bio: String):Boolean!
+}
+type Query{
+    hello : String !
+}
