@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 import dotenv from "dotenv";
 import path from "path";
+import jwt from "jsonwebtoken";
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 const string = `1234567890-=qwertyuiop[]\asdfghjkl;zxcvbnm,./QWERTYUIOP{}ASDFGHJKL:ZXCVBNM<>?`;
 
@@ -30,3 +31,4 @@ export const sendSecretMail = async(email, secret)=>{
         html: `Hello! Your login secret is <b>${secret}</b>.<br/>Copy paste on the app/website to log in`
     });
 }
+export const generateToken = id => jwt.sign({ id }, process.env.JWT_SECRET);
