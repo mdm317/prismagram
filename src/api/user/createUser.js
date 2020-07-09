@@ -2,7 +2,7 @@ import prisma from '../../../src/server';
 import {secretGenerator, sendSecretMail} from '../../../src/utils.js';
 export default {
     Mutation:{
-        createUser:async(_,args, )=>{
+        createUser:async(_,args )=>{
             const {nickName,email,firstName="",lastName,bio=""} = args;
             console.log(nickName,email,firstName,lastName,bio);
             try {
