@@ -18,10 +18,10 @@ export default{
                     },
                     text
                 }});
-                return "ss";
+                return true;
             } catch (error) {
                 console.log(error);
-                
+                return false;
             }
 
         }

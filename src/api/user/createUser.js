@@ -25,8 +25,5 @@ export default {
             }
         return true;
         }
-    },
-    Query:{
-        hello: ()=>"HI!"
     }
 }

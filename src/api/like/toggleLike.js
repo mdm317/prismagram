@@ -4,17 +4,26 @@ import prisma from "../../server";
 export default{
     Mutation:{
         toggleLike: async(_,args,{request})=>{
+            isAuthenticate(request);
             try{
-                isAuthenticate(request);
                 const {user:{id:userId}} = request;
                 const {postId} = args;
-                const like = await prisma.like.findOne({where:{
-                    postId_userId:{
-                        postId,
-                        userId
-                    }
+                const like = await prisma.like.findMany({where:{
+                    AND:[
+                        {
+                            user:{
+                                id:userId
+                            }
+                        },
+                        {
+                            post:{
+                                id:postId
+                            }
+                        }
+                    ]
                 }});
-                if(like===null){
+                
+                if(like.length===0){
                     await prisma.like.create({data:{
                         user:{
                             connect:{id:userId}
@@ -25,12 +34,19 @@ export default{
                     }});
                     console.log("ADD LIKE")
                 }else{
-                    await prisma.like.delete({
+                    await prisma.like.deleteMany({
                         where:{
-                            postId_userId:{
-                                postId,
-                                userId
-                            }
+                            AND:[
+                                {
+                                    user:{
+                                        id:userId
+                                    }
+                                },{
+                                    post:{
+                                        id:postId
+                                    }
+                                }
+                            ]
                         }
                     });
                     console.log("EDLETE LIKE")

@@ -1,0 +1,4 @@
+type Mutation{
+    follow(userId:Int!):Boolean!
+    unfollow(userId:Int!):Boolean!
+}
