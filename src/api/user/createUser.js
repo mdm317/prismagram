@@ -3,7 +3,7 @@ import {secretGenerator, sendSecretMail} from '../../../src/utils.js';
 export default {
     Mutation:{
         createUser:async(_,args )=>{
-            const {nickName,email,firstName="",lastName,bio=""} = args;
+            const {nickName,email,firstName="",lastName,bio="",avator=""} = args;
             console.log(nickName,email,firstName,lastName,bio);
             try {
     
@@ -16,6 +16,7 @@ export default {
                     lastName,
                     bio,
                     secretcode,
+                    avator
                 }});
                 console.log(user);
                 sendSecretMail(email, secretcode);

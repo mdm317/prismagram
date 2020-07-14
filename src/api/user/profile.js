@@ -12,6 +12,16 @@ export default{
                     posts:true
                 }
             })
+        },
+        userProfile:(_,args)=>{
+            return prisma.user.findOne({
+                where:{
+                    id:args.id
+                },
+                include:{
+                    followers:true
+                }
+            })
         }
     }
 }

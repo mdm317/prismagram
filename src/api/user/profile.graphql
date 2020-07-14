@@ -1,3 +1,4 @@
 type Query{
     myProfile:User
+    userProfile(id:Int!):User
 }

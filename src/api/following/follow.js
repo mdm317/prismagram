@@ -5,6 +5,9 @@ export default{
     Mutation:{
         follow:async(_,args,{request})=>{
             isAuthenticate(request);
+            if(args.userId === request.user.id){
+                throw Error("same id");
+            }
             try {
                 await prisma.user.update({
                     where:{

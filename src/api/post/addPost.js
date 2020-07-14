@@ -4,9 +4,9 @@ export default{
     Mutation:{
         addPost:async(_,args,{request,isAuthenticate})=>{
             isAuthenticate(request);
-            const{location="", caption} = args;
+            const{location="", caption, files=[]} = args;
             try {
-                await prisma.post.create({
+                const newPost = await prisma.post.create({
                     data:{
                         location,
                         caption,
@@ -14,9 +14,23 @@ export default{
                             connect:{
                                 id:request.user.id
                             }
-                        }
+                        },
+                        
                     }
                 });
+                files.forEach(async file=>
+                    await prisma.file.create({
+                        data:{
+                            url:file,
+                            post:{
+                                connect:{
+                                    id:newPost.id
+                                }
+                            }
+                            
+                        }
+                    })
+                );
                 return true;              
             } catch (error) {
                 console.log(error);
