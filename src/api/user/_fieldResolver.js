@@ -38,7 +38,17 @@ export default{
             const {id:parentId} = parent;
             const {user:{id}} = request;
             return parentId===id;
+        },
+        followingCount:parent=>{
+            if(!parent.following)return 0;
+            return parent.following.length;
+        },
+        followerCount:parent=>{
+            if(!parent.follower)return 0;
+            return parent.follower.length;
         }
+
+
         // amIFollowing : async(parent,_,{request,isAuthenticate})=>{
         //     isAuthenticate(request);
         //     console.log(parent);

@@ -31,8 +31,14 @@ export default{
                 return false;
             }
         },
-        likeCount:parent=>parent.likes.length
-        
+        likeCount:parent=>{
+            if(!parent.likes)return 0;
+            return parent.likes.length;
+        },
+        commentCount:parent=>{
+            if(!parent.comments)return 0;
+            return parent.comments.length;
+        },
         
     }
 }

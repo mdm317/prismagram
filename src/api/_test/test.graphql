@@ -1,0 +1,6 @@
+type Query{
+    hello:String!
+}
+type Mutation{
+    addPost2(caption:String! , files:[String],userId:Int! ):Boolean
+}

@@ -4,9 +4,7 @@ export default {
     Mutation:{
         createUser:async(_,args )=>{
             const {nickName,email,firstName="",lastName,bio="",avator=""} = args;
-            console.log(nickName,email,firstName,lastName,bio);
             try {
-    
                 const secretcode = secretGenerator(16);
                 console.log(secretcode);
                 const user = await prisma.user.create({data:{
@@ -18,11 +16,11 @@ export default {
                     secretcode,
                     avator
                 }});
-                console.log(user);
+                console.log('user' ,user);
                 sendSecretMail(email, secretcode);
             } catch (error) {
                 console.log(error);
-                return false;
+                throw Error(error);
             }
         return true;
         }

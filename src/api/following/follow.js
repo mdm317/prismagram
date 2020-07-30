@@ -5,52 +5,61 @@ export default{
     Mutation:{
         follow:async(_,args,{request})=>{
             isAuthenticate(request);
-            if(args.userId === request.user.id){
+            const {userId} = args;
+            const {user:{id}} = request;
+
+
+            if(userId === id){
                 throw Error("same id");
             }
             try {
-                await prisma.user.update({
+                const user = await prisma.user.findOne({
                     where:{
-                        id:args.userId
+                        id
                     },
-                    data:{
-                        followers:{
-                            connect:{
-                                id:request.user.id
-                            }
-                        }
+                    include:{
+                       following:{
+                           select:{
+                               id:true
+                           }
+                       }
                     }
                 });
-                return true;
-            } catch (error) {
-                console.log(error);
-                return false;
-            }
-        },
-        unfollow:async(_,args,{request})=>{
-            isAuthenticate(request);
-            const {user:loginUser} = request;
-            const {userId} = args;
-            try {
-                await prisma.user.update({
-                    where:{
-                        id:loginUser.id
-                    },
-                    data:{
-                        following:{
-                            disconnect:{
-                                id:userId
-                            }
-                        }
-                    }
-                });
-                return true;
+                const followings = user.following.map(item=>item.id);
                 
+                if(followings.indexOf(userId)!==-1){
+                    await prisma.user.update({
+                        where:{
+                            id
+                        },
+                        data:{
+                            following:{
+                                disconnect:{
+                                    id:userId
+                                }
+                            }
+                        }
+                    });
+                    return false;
+                }else{
+                    await prisma.user.update({
+                        where:{
+                            id:userId
+                        },
+                        data:{
+                            followers:{
+                                connect:{
+                                    id
+                                }
+                            }
+                        }
+                    });
+                    return true;
+                }
             } catch (error) {
                 console.log(error);
-                return false;
+                throw Error(error);
             }
-
         }
     }
 }

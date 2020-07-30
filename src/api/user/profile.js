@@ -13,15 +13,32 @@ export default{
                 }
             })
         },
-        userProfile:(_,args)=>{
-            return prisma.user.findOne({
-                where:{
-                    id:args.id
-                },
-                include:{
-                    followers:true
-                }
-            })
+        userProfile:async(_,args)=>{
+            console.log('ht>');
+            try {
+                console.log(args.nickName);
+                const user = await prisma.user.findOne({
+                    where:{
+                        nickName:args.nickName
+                    },
+                    include:{
+                        followers:true,
+                        following:true,
+                        posts:{
+                            include:{
+                                files:true,
+                                comments:true,
+                                likes:true        
+                            }
+                        }
+                    }
+                });
+                console.log(user);
+                return user;
+            } catch (error) {
+                console.log(error);
+                throw Error(error);
+            }
         }
     }
 }

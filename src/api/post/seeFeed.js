@@ -16,7 +16,14 @@ export default{
                         }
                     },
                     include:{
-                        user:true
+                        user:true,
+                        comments:{
+                            include:{
+                                user:true
+                            }
+                        },
+                        files:true,
+                        likes:true
                     },
                     orderBy:{
                         createdAt:"desc"

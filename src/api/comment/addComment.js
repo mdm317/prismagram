@@ -3,13 +3,13 @@ import prisma from "../../server";
 
 export default{
     Mutation:{
-        addCommnets:async(_,args,{request})=>{
+        addComments:async(_,args,{request})=>{
             isAuthenticate(request);
             const {user:{id:userId}} = request;
             const {postId, text} = args;
             try {
                 console.log(userId, postId, text);       
-                await prisma.comment.create({data:{
+                const comment = await prisma.comment.create({data:{
                     user:{
                         connect:{id:userId}
                     },
@@ -18,10 +18,15 @@ export default{
                     },
                     text
                 }});
-                return true;
+                return await prisma.comment.findOne({
+                    where:{id:comment.id}
+                    ,include:{
+                        user:true
+                    }
+                });
             } catch (error) {
                 console.log(error);
-                return false;
+                throw Error(error);
             }
 
         }
